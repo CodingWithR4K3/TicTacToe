@@ -32,8 +32,6 @@ hs_err_pid*
 *.iml
 out
 gen
-.gradle
-gradle
 ### macOS template
 # General
 .DS_Store
@@ -62,22 +60,3 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-.gitignore
-.gradle/6.3/vcsMetadata-1/
-.gradle/6.5/vcsMetadata-1/
-.idea/.gitignore
-.idea/compiler.xml
-.idea/gradle.xml
-.idea/jarRepositories.xml
-.idea/libraries/
-.idea/misc.xml
-.idea/uiDesigner.xml
-.idea/vcs.xml
-build/classes/
-build/generated/
-gradle/wrapper/gradle-wrapper.jar
-src/test/
-/gradle/
-build/distributions/TicTacToe-1.0-SNAPSHOT.tar
-build/scripts/
-build/tmp/jar/
