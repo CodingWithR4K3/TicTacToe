@@ -2,12 +2,12 @@ package com.kodilla.tictactoe.shape;
 
 import javafx.scene.image.Image;
 
-public class Circle implements Shape {
+ public class Circle implements Shape {
 
-    public static final Image circle = new Image("file:src/main/resources/circle.jpeg");
+     private static final Image CIRCLE = new Image("file:src/main/resources/circle.png");
 
-    @Override
-    public Image getShape() {
-        return circle;
-    }
-}
+     @Override
+     public Image getShape() {
+         return CIRCLE;
+     }
+ }
