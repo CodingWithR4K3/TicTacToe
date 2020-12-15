@@ -22,10 +22,7 @@ import javafx.stage.Stage;
 
 public class TicTacToe extends Application {
 
-    Image imageback = new Image("file:src/main/resources/background.jpg");
-    BackgroundSize backgroundSize = new BackgroundSize(100, 130, true, true, true, true);
-    BackgroundImage backgroundImage = new BackgroundImage(imageback, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
-    Background background = new Background(backgroundImage);
+   private final Image imageback = new Image("file:src/main/resources/background.jpg");
 
     private GameProcessor processor;
 
@@ -43,8 +40,14 @@ public class TicTacToe extends Application {
     }
 
     private Parent createBoard() {
+
         GridPane grid = new GridPane();
+
+        BackgroundSize backgroundSize = new BackgroundSize(100, 130, true, true, true, true);
+        BackgroundImage backgroundImage = new BackgroundImage(imageback, BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);
+        Background background = new Background(backgroundImage);
         grid.setBackground(background);
+
         Label helloLabel = new Label("Welcome in a game of TicTacToe!");
         helloLabel.setFont(new Font("Arial", 18));
         helloLabel.setPadding(new Insets(10, 10, 10, 60));
@@ -87,12 +90,12 @@ public class TicTacToe extends Application {
 
         Button[] buttonsArray = new Button[9];
 
-        for (int i = 0; i < 9; i++) {
+        for (int index = 0; index < 9; index++) {
             Button button = new Button();
             button.setMinSize(126, 108);
-            button.setId(String.valueOf(i + 1));
+            button.setId(String.valueOf(index + 1));
             button.setDisable(true);
-            buttonsArray[i] = button;
+            buttonsArray[index] = button;
         }
 
         grid.add(buttonsArray[0], 0, 1);
@@ -105,9 +108,9 @@ public class TicTacToe extends Application {
         grid.add(buttonsArray[7], 1, 3);
         grid.add(buttonsArray[8], 2, 3);
 
-        for (int i = 0; i < 9; i++) {
-            int finalI = i;
-            buttonsArray[i].setOnAction((event) -> {
+        for (int index = 0; index < 9; index++) {
+            int finalI = index;
+            buttonsArray[index].setOnAction((event) -> {
                 processor.clickButton(buttonsArray[finalI], grid);
                 buttonsArray[finalI].setDisable(true);
             });
@@ -131,9 +134,9 @@ public class TicTacToe extends Application {
 
         setWhoStart(selectedButtonWhoStart, selectedButtonWhatShape);
 
-        for (int i = 0; i < 9; i++) {
-            buttonsArray[i].setGraphic(null);
-            buttonsArray[i].setDisable(false);
+        for (int index = 0; index < 9; index++) {
+            buttonsArray[index].setGraphic(null);
+            buttonsArray[index].setDisable(false);
         }
 
         if (processor.getGameInfo().getActualPlayer() instanceof Computer) {
