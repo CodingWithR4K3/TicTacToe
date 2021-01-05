@@ -23,6 +23,7 @@ import java.io.IOException;
 
 public class TicTacToe extends Application {
 
+    private GameInfo gameInfo;
     private GameProcessor processor;
     private final Image imageback = new Image("file:src/main/resources/background.jpg");
     private final Leaderboard leaderboard = new Leaderboard();
@@ -152,7 +153,7 @@ public class TicTacToe extends Application {
             buttonsArray[index].setDisable(false);
         }
 
-        if (GameInfo.getActualPlayer() instanceof Computer) {
+        if (gameInfo.getActualPlayer() instanceof Computer) {
             processor.computerClickButton(grid);
         }
     }
@@ -166,10 +167,10 @@ public class TicTacToe extends Application {
         }
 
         if (selectedButtonWhatShape.getText().equals("Circle")) {
-            GameInfo.getActualPlayer().setActualShape(new Circle());
+            gameInfo.getActualPlayer().setActualShape(new Circle());
             processor.getGameInfo().getSecondPlayer().setActualShape(new Cross());
         } else if (selectedButtonWhatShape.getText().equals("Cross")) {
-            GameInfo.getActualPlayer().setActualShape(new Cross());
+            gameInfo.getActualPlayer().setActualShape(new Cross());
             processor.getGameInfo().getSecondPlayer().setActualShape(new Circle());
         }
     }
