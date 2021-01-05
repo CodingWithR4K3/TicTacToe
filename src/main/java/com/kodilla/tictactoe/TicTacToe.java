@@ -1,5 +1,6 @@
 package com.kodilla.tictactoe;
 
+import com.kodilla.tictactoe.game.GameInfo;
 import com.kodilla.tictactoe.game.GameProcessor;
 import com.kodilla.tictactoe.shape.Circle;
 import com.kodilla.tictactoe.shape.Cross;
@@ -49,8 +50,8 @@ public class TicTacToe extends Application {
         grid.setBackground(background);
 
         Label helloLabel = new Label("Welcome in a game of TicTacToe!");
-        helloLabel.setFont(new Font("Arial", 18));
-        helloLabel.setPadding(new Insets(10, 10, 10, 60));
+        helloLabel.setFont(new Font("Arial", 14));
+        helloLabel.setPadding(new Insets(10, 10, 10, 1));
 
         grid.add(helloLabel, 0, 0, 3, 1);
 
@@ -125,7 +126,14 @@ public class TicTacToe extends Application {
         newGameButton.setOnAction((event) -> cleanup(buttonsArray, (RadioButton) toggleGroupWhichStarts.getSelectedToggle(),
                 (RadioButton) toggleGroupWhichShape.getSelectedToggle(), grid));
 
+
         MessageBox.createHelloBox();
+
+        Button leaderboardButton = new Button("LeaderBoard");
+        leaderboardButton.setFont(ApplicationFont.appFont());
+        leaderboardButton.setId("100");
+
+        grid.add(leaderboardButton, 2, 0, 1, 1);
 
         return grid;
     }
@@ -139,7 +147,7 @@ public class TicTacToe extends Application {
             buttonsArray[index].setDisable(false);
         }
 
-        if (processor.getGameInfo().getActualPlayer() instanceof Computer) {
+        if (GameInfo.getActualPlayer() instanceof Computer) {
             processor.computerClickButton(grid);
         }
     }
@@ -153,10 +161,10 @@ public class TicTacToe extends Application {
         }
 
         if (selectedButtonWhatShape.getText().equals("Circle")) {
-            processor.getGameInfo().getActualPlayer().setActualShape(new Circle());
+            GameInfo.getActualPlayer().setActualShape(new Circle());
             processor.getGameInfo().getSecondPlayer().setActualShape(new Cross());
         } else if (selectedButtonWhatShape.getText().equals("Cross")) {
-            processor.getGameInfo().getActualPlayer().setActualShape(new Cross());
+            GameInfo.getActualPlayer().setActualShape(new Cross());
             processor.getGameInfo().getSecondPlayer().setActualShape(new Circle());
         }
     }

@@ -29,7 +29,7 @@ public class GameProcessor {
 
         if (gameInfo.getEndGame()) {
             int id = Integer.parseInt(button.getId());
-            button.setGraphic(new ImageView(gameInfo.getActualPlayer().getActualShape().getShape()));
+            button.setGraphic(new ImageView(GameInfo.getActualPlayer().getActualShape().getShape()));
             setCrossAndCircleInButtonsBasedId(id);
             gameInfo.setRoundNumber(gameInfo.getRoundNumber() + 1);
 
@@ -53,7 +53,7 @@ public class GameProcessor {
     private void setCrossAndCircleInButtonsBasedId(int buttonID) {
 
         Shape[] temporaryArray = gameInfo.getGameBoard();
-        temporaryArray[buttonID - 1] = gameInfo.getActualPlayer().getActualShape();
+        temporaryArray[buttonID - 1] = GameInfo.getActualPlayer().getActualShape();
         gameInfo.setGameBoard(temporaryArray);
     }
 
@@ -82,7 +82,7 @@ public class GameProcessor {
 
     public void computerClickButton(GridPane gridPane) {
         Button computerButton = (Button) gridPane.lookup(computerMoveInString());
-        computerButton.setGraphic(new ImageView(gameInfo.getActualPlayer().getActualShape().getShape()));
+        computerButton.setGraphic(new ImageView(GameInfo.getActualPlayer().getActualShape().getShape()));
         computerButton.setDisable(true);
 
         gameInfo.setRoundNumber(gameInfo.getRoundNumber() + 1);
@@ -96,7 +96,7 @@ public class GameProcessor {
     }
 
     private void changePlayer() {
-        User temporaryPlayer = gameInfo.getActualPlayer();
+        User temporaryPlayer = GameInfo.getActualPlayer();
 
         gameInfo.setActualPlayer(gameInfo.getSecondPlayer());
         gameInfo.setSecondPlayer(temporaryPlayer);

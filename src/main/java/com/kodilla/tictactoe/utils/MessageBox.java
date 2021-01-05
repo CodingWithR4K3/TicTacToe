@@ -1,5 +1,6 @@
 package com.kodilla.tictactoe.utils;
 
+import com.kodilla.tictactoe.game.GameInfo;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
@@ -9,6 +10,7 @@ public class MessageBox {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Start new game", ButtonType.OK);
         alert.setTitle("Game Over");
         alert.setHeaderText("Game Over");
+        alert.setContentText("Won " + GameInfo.getActualPlayer());
         alert.showAndWait().ifPresent(rs -> {
         });
     }
