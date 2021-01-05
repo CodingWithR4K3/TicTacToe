@@ -7,17 +7,19 @@ import com.kodilla.tictactoe.user.User;
 
 public class GameInfo {
 
-    private static User actualPlayer;
+    private User actualPlayer;
     private User secondPlayer;
     private Shape[] gameBoard;
     private int roundNumber;
     private boolean endGame;
 
     public GameInfo(User actualPlayer) {
-        GameInfo.actualPlayer = actualPlayer;
+        this.actualPlayer = actualPlayer;
 
-        if (actualPlayer instanceof Player) {
+        if (!actualPlayer.isComputer()) {
             this.secondPlayer = new Computer();
+        } else {
+            this.secondPlayer = new Player();
         }
 
         roundNumber = 0;
@@ -25,12 +27,12 @@ public class GameInfo {
         endGame = false;
     }
 
-    public static User getActualPlayer() {
+    public User getActualPlayer() {
         return actualPlayer;
     }
 
     public void setActualPlayer(User actualPlayer) {
-        GameInfo.actualPlayer = actualPlayer;
+        this.actualPlayer = actualPlayer;
     }
 
     public User getSecondPlayer() {

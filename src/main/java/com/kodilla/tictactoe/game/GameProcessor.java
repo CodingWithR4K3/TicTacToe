@@ -33,7 +33,7 @@ public class GameProcessor {
 
         if (gameInfo.getEndGame()) {
             int id = Integer.parseInt(button.getId());
-            button.setGraphic(new ImageView(GameInfo.getActualPlayer().getActualShape().getShape()));
+            button.setGraphic(new ImageView(gameInfo.getActualPlayer().getActualShape().getShape()));
             setCrossAndCircleInButtonsBasedId(id);
             gameInfo.setRoundNumber(gameInfo.getRoundNumber() + 1);
 
@@ -52,7 +52,7 @@ public class GameProcessor {
     }
 
     private void updateLeaderboard() {
-        User actualPlayer = GameInfo.getActualPlayer();
+        User actualPlayer = gameInfo.getActualPlayer();
         if (!actualPlayer.isComputer()) {
             leaderboard.addUserPoints();
         } else {
@@ -63,7 +63,7 @@ public class GameProcessor {
     private void setCrossAndCircleInButtonsBasedId(int buttonID) {
 
         Shape[] temporaryArray = gameInfo.getGameBoard();
-        temporaryArray[buttonID - 1] = GameInfo.getActualPlayer().getActualShape();
+        temporaryArray[buttonID - 1] = gameInfo.getActualPlayer().getActualShape();
         gameInfo.setGameBoard(temporaryArray);
     }
 
@@ -92,7 +92,7 @@ public class GameProcessor {
 
     public void computerClickButton(GridPane gridPane) {
         Button computerButton = (Button) gridPane.lookup(computerMoveInString());
-        computerButton.setGraphic(new ImageView(GameInfo.getActualPlayer().getActualShape().getShape()));
+        computerButton.setGraphic(new ImageView(gameInfo.getActualPlayer().getActualShape().getShape()));
         computerButton.setDisable(true);
         gameInfo.setRoundNumber(gameInfo.getRoundNumber() + 1);
 
@@ -110,7 +110,7 @@ public class GameProcessor {
     }
 
     private void changePlayer() {
-        User temporaryPlayer = GameInfo.getActualPlayer();
+        User temporaryPlayer = gameInfo.getActualPlayer();
 
         gameInfo.setActualPlayer(gameInfo.getSecondPlayer());
         gameInfo.setSecondPlayer(temporaryPlayer);
@@ -121,7 +121,7 @@ public class GameProcessor {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Start new game", ButtonType.OK);
         alert.setTitle("Game Over");
         alert.setHeaderText("Game Over");
-        alert.setContentText("Won " + GameInfo.getActualPlayer());
+        alert.setContentText("Won " + gameInfo.getActualPlayer());
         alert.showAndWait().ifPresent(rs -> {
         });
     }
