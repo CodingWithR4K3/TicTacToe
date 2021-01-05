@@ -8,6 +8,8 @@ public interface User {
 
     void setActualShape(Shape shape);
 
+    boolean isComputer();
+
     @Override
     String toString();
 }

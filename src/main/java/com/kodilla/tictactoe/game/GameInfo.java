@@ -19,6 +19,7 @@ public class GameInfo {
         if (actualPlayer instanceof Player) {
             this.secondPlayer = new Computer();
         }
+
         roundNumber = 0;
         gameBoard = new Shape[9];
         endGame = false;

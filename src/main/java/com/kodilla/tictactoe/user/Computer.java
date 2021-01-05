@@ -17,6 +17,11 @@ public class Computer extends Player implements User {
     }
 
     @Override
+    public boolean isComputer() {
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "Computer";
     }

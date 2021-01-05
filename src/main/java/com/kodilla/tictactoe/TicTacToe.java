@@ -2,6 +2,7 @@ package com.kodilla.tictactoe;
 
 import com.kodilla.tictactoe.game.GameInfo;
 import com.kodilla.tictactoe.game.GameProcessor;
+import com.kodilla.tictactoe.game.Leaderboard;
 import com.kodilla.tictactoe.shape.Circle;
 import com.kodilla.tictactoe.shape.Cross;
 import com.kodilla.tictactoe.user.Computer;
@@ -12,32 +13,33 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 public class TicTacToe extends Application {
 
-   private final Image imageback = new Image("file:src/main/resources/background.jpg");
-
     private GameProcessor processor;
+    private final Image imageback = new Image("file:src/main/resources/background.jpg");
+    private final Leaderboard leaderboard = new Leaderboard();
 
     public static void main(String[] args) {
         launch(args);
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws IOException {
         Scene scene = new Scene(createBoard());
         primaryStage.setTitle("TicTacToe");
         primaryStage.setResizable(false);
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        leaderboard.init();
     }
 
     private Parent createBoard() {
@@ -133,6 +135,9 @@ public class TicTacToe extends Application {
         leaderboardButton.setFont(ApplicationFont.appFont());
         leaderboardButton.setId("100");
 
+        leaderboardButton.setOnAction(event ->
+                createLeaderboardBox());
+
         grid.add(leaderboardButton, 2, 0, 1, 1);
 
         return grid;
@@ -155,9 +160,9 @@ public class TicTacToe extends Application {
     private void setWhoStart(RadioButton selectedButtonWhoStart, RadioButton selectedButtonWhatShape) {
 
         if (selectedButtonWhoStart.getText().equals("Player")) {
-            processor = new GameProcessor(new Player());
+            processor = new GameProcessor(new Player(), leaderboard);
         } else if (selectedButtonWhoStart.getText().equals("Computer")) {
-            processor = new GameProcessor(new Computer());
+            processor = new GameProcessor(new Computer(), leaderboard);
         }
 
         if (selectedButtonWhatShape.getText().equals("Circle")) {
@@ -168,4 +173,14 @@ public class TicTacToe extends Application {
             processor.getGameInfo().getSecondPlayer().setActualShape(new Circle());
         }
     }
+
+    public void createLeaderboardBox() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Leaderboard", ButtonType.CLOSE);
+        alert.setTitle("Leaderboard");
+        alert.setHeaderText("Leaderboard");
+        alert.setContentText("Player : " + " " + leaderboard.getUserPoints() + " " + "Computer: " + " " + leaderboard.getComputerPoints());
+        alert.showAndWait().ifPresent(rs -> {
+        });
+    }
+
 }

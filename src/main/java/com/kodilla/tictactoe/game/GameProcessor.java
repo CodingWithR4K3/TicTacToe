@@ -4,7 +4,9 @@ import com.kodilla.tictactoe.shape.Shape;
 import com.kodilla.tictactoe.user.Player;
 import com.kodilla.tictactoe.user.User;
 import com.kodilla.tictactoe.utils.MessageBox;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
@@ -15,9 +17,11 @@ public class GameProcessor {
 
     private final GameInfo gameInfo;
     private final GameChecker gameChecker;
+    private final Leaderboard leaderboard;
 
-    public GameProcessor(Player actualPlayer) {
+    public GameProcessor(Player actualPlayer, Leaderboard leaderboard) {
         this.gameInfo = new GameInfo(actualPlayer);
+        this.leaderboard = leaderboard;
         this.gameChecker = new GameChecker();
     }
 
@@ -33,10 +37,7 @@ public class GameProcessor {
             setCrossAndCircleInButtonsBasedId(id);
             gameInfo.setRoundNumber(gameInfo.getRoundNumber() + 1);
 
-            if (gameChecker.checkDidYouWin(gameInfo.getGameBoard())) {
-                gameInfo.setEndGame(true);
-                MessageBox.createMessageBox();
-            }
+            checkIfGameEnds();
 
             changePlayer();
         }
@@ -47,6 +48,15 @@ public class GameProcessor {
 
         if (gameInfo.getRoundNumber() == 9 && gameInfo.getEndGame()) {
             MessageBox.createDrawBox();
+        }
+    }
+
+    private void updateLeaderboard() {
+        User actualPlayer = GameInfo.getActualPlayer();
+        if (!actualPlayer.isComputer()) {
+            leaderboard.addUserPoints();
+        } else {
+            leaderboard.addComputerPoints();
         }
     }
 
@@ -84,15 +94,19 @@ public class GameProcessor {
         Button computerButton = (Button) gridPane.lookup(computerMoveInString());
         computerButton.setGraphic(new ImageView(GameInfo.getActualPlayer().getActualShape().getShape()));
         computerButton.setDisable(true);
-
         gameInfo.setRoundNumber(gameInfo.getRoundNumber() + 1);
 
-        if (gameChecker.checkDidYouWin(gameInfo.getGameBoard())) {
-            gameInfo.setEndGame(true);
-            MessageBox.createMessageBox();
-        }
+        checkIfGameEnds();
 
         changePlayer();
+    }
+
+    private void checkIfGameEnds() {
+        if (gameChecker.checkDidYouWin(gameInfo.getGameBoard())) {
+            gameInfo.setEndGame(true);
+            updateLeaderboard();
+            createMessageBox();
+        }
     }
 
     private void changePlayer() {
@@ -100,5 +114,15 @@ public class GameProcessor {
 
         gameInfo.setActualPlayer(gameInfo.getSecondPlayer());
         gameInfo.setSecondPlayer(temporaryPlayer);
+    }
+
+    public void createMessageBox() {
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Start new game", ButtonType.OK);
+        alert.setTitle("Game Over");
+        alert.setHeaderText("Game Over");
+        alert.setContentText("Won " + GameInfo.getActualPlayer());
+        alert.showAndWait().ifPresent(rs -> {
+        });
     }
 }
