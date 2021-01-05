@@ -1,6 +1,5 @@
 package com.kodilla.tictactoe;
 
-import com.kodilla.tictactoe.game.GameInfo;
 import com.kodilla.tictactoe.game.GameProcessor;
 import com.kodilla.tictactoe.game.Leaderboard;
 import com.kodilla.tictactoe.shape.Circle;
@@ -23,7 +22,6 @@ import java.io.IOException;
 
 public class TicTacToe extends Application {
 
-    private GameInfo gameInfo;
     private GameProcessor processor;
     private final Image imageback = new Image("file:src/main/resources/background.jpg");
     private final Leaderboard leaderboard = new Leaderboard();
@@ -153,7 +151,7 @@ public class TicTacToe extends Application {
             buttonsArray[index].setDisable(false);
         }
 
-        if (gameInfo.getActualPlayer() instanceof Computer) {
+        if (processor.getGameInfo().getActualPlayer().isComputer()) {
             processor.computerClickButton(grid);
         }
     }
@@ -167,10 +165,10 @@ public class TicTacToe extends Application {
         }
 
         if (selectedButtonWhatShape.getText().equals("Circle")) {
-            gameInfo.getActualPlayer().setActualShape(new Circle());
+            processor.getGameInfo().getActualPlayer().setActualShape(new Circle());
             processor.getGameInfo().getSecondPlayer().setActualShape(new Cross());
         } else if (selectedButtonWhatShape.getText().equals("Cross")) {
-            gameInfo.getActualPlayer().setActualShape(new Cross());
+            processor.getGameInfo().getActualPlayer().setActualShape(new Cross());
             processor.getGameInfo().getSecondPlayer().setActualShape(new Circle());
         }
     }

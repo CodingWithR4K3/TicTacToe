@@ -16,7 +16,7 @@ public class GameInfo {
     public GameInfo(User actualPlayer) {
         this.actualPlayer = actualPlayer;
 
-        if (actualPlayer instanceof Player) {
+        if (!actualPlayer.isComputer()) {
             this.secondPlayer = new Computer();
         } else {
             this.secondPlayer = new Player();
