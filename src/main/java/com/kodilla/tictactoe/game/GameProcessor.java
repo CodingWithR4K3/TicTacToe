@@ -121,7 +121,7 @@ public class GameProcessor {
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Start new game", ButtonType.OK);
         alert.setTitle("Game Over");
         alert.setHeaderText("Game Over");
-        alert.setContentText("Won " + gameInfo.getActualPlayer());
+        alert.setContentText("The Winner is: " + gameInfo.getActualPlayer());
         alert.showAndWait().ifPresent(rs -> {
         });
     }
