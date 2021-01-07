@@ -1,6 +1,7 @@
 package com.kodilla.tictactoe;
 
 import com.kodilla.tictactoe.game.GameProcessor;
+import com.kodilla.tictactoe.game.GameStateObserver;
 import com.kodilla.tictactoe.game.Leaderboard;
 import com.kodilla.tictactoe.shape.Circle;
 import com.kodilla.tictactoe.shape.Cross;
@@ -20,11 +21,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class TicTacToe extends Application {
+public class TicTacToe extends Application implements GameStateObserver {
 
-    private GameProcessor processor;
-    private final Image imageback = new Image("file:src/main/resources/background.jpg");
+    private static final Image imageback = new Image("file:src/main/resources/background.jpg");
+
     private final Leaderboard leaderboard = new Leaderboard();
+    private GameProcessor processor;
+    private Button[] buttonsArray;
 
     public static void main(String[] args) {
         launch(args);
@@ -90,15 +93,7 @@ public class TicTacToe extends Application {
         grid.add(chooseCircle, 3, 3, 1, 1);
         grid.add(chooseCross, 3, 4, 1, 1);
 
-        Button[] buttonsArray = new Button[9];
-
-        for (int index = 0; index < 9; index++) {
-            Button button = new Button();
-            button.setMinSize(126, 108);
-            button.setId(String.valueOf(index + 1));
-            button.setDisable(true);
-            buttonsArray[index] = button;
-        }
+        buttonsArray = createButtons();
 
         grid.add(buttonsArray[0], 0, 1);
         grid.add(buttonsArray[1], 1, 1);
@@ -110,11 +105,10 @@ public class TicTacToe extends Application {
         grid.add(buttonsArray[7], 1, 3);
         grid.add(buttonsArray[8], 2, 3);
 
-        for (int index = 0; index < 9; index++) {
-            int finalI = index;
-            buttonsArray[index].setOnAction((event) -> {
-                processor.clickButton(buttonsArray[finalI], grid);
-                buttonsArray[finalI].setDisable(false);
+        for (Button button : buttonsArray) {
+            button.setOnAction(event -> {
+                processor.clickButton(button, grid);
+                button.setDisable(true);
             });
         }
         Button newGameButton = new Button("Start new game");
@@ -123,7 +117,7 @@ public class TicTacToe extends Application {
 
         grid.add(newGameButton, 3, 0, 1, 1);
 
-        newGameButton.setOnAction((event) -> cleanup(buttonsArray, (RadioButton) toggleGroupWhichStarts.getSelectedToggle(),
+        newGameButton.setOnAction((event) -> cleanup((RadioButton) toggleGroupWhichStarts.getSelectedToggle(),
                 (RadioButton) toggleGroupWhichShape.getSelectedToggle(), grid));
 
 
@@ -142,13 +136,26 @@ public class TicTacToe extends Application {
 
     }
 
-    private void cleanup(Button[] buttonsArray, RadioButton selectedButtonWhoStart, RadioButton selectedButtonWhatShape, GridPane grid) {
+    private Button[] createButtons() {
+        Button[] buttonsArray = new Button[9];
+
+        for (int index = 0; index < 9; index++) {
+            Button button = new Button();
+            button.setMinSize(126, 108);
+            button.setId(String.valueOf(index + 1));
+            button.setDisable(true);
+            buttonsArray[index] = button;
+        }
+        return buttonsArray;
+    }
+
+    private void cleanup(RadioButton selectedButtonWhoStart, RadioButton selectedButtonWhatShape, GridPane grid) {
 
         setWhoStart(selectedButtonWhoStart, selectedButtonWhatShape);
 
-        for (int index = 0; index < 9; index++) {
-            buttonsArray[index].setGraphic(null);
-            buttonsArray[index].setDisable(false);
+        for (Button button : buttonsArray) {
+            button.setGraphic(null);
+            button.setDisable(false);
         }
 
         if (processor.getGameInfo().getActualPlayer().isComputer()) {
@@ -159,9 +166,9 @@ public class TicTacToe extends Application {
     private void setWhoStart(RadioButton selectedButtonWhoStart, RadioButton selectedButtonWhatShape) {
 
         if (selectedButtonWhoStart.getText().equals("Player")) {
-            processor = new GameProcessor(new Player(), leaderboard);
+            processor = new GameProcessor(new Player(), this, leaderboard);
         } else if (selectedButtonWhoStart.getText().equals("Computer")) {
-            processor = new GameProcessor(new Computer(), leaderboard);
+            processor = new GameProcessor(new Computer(), this, leaderboard);
         }
 
         if (selectedButtonWhatShape.getText().equals("Circle")) {
@@ -173,6 +180,13 @@ public class TicTacToe extends Application {
         }
     }
 
+    @Override
+    public void gameFinished() {
+        for (Button button : buttonsArray) {
+            button.setDisable(true);
+        }
+    }
+
     public void createLeaderboardBox() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Leaderboard", ButtonType.CLOSE);
         alert.setTitle("Leaderboard");
@@ -181,5 +195,6 @@ public class TicTacToe extends Application {
         alert.showAndWait().ifPresent(rs -> {
         });
     }
+
 
 }

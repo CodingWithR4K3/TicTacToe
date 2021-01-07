@@ -17,10 +17,12 @@ public class GameProcessor {
 
     private final GameInfo gameInfo;
     private final GameChecker gameChecker;
+    private final GameStateObserver gameStateObserver;
     private final Leaderboard leaderboard;
 
-    public GameProcessor(Player actualPlayer, Leaderboard leaderboard) {
+    public GameProcessor(Player actualPlayer, GameStateObserver gameStateObserver, Leaderboard leaderboard) {
         this.gameInfo = new GameInfo(actualPlayer);
+        this.gameStateObserver = gameStateObserver;
         this.leaderboard = leaderboard;
         this.gameChecker = new GameChecker();
     }
@@ -34,6 +36,7 @@ public class GameProcessor {
         if (gameInfo.getEndGame()) {
             int id = Integer.parseInt(button.getId());
             button.setGraphic(new ImageView(gameInfo.getActualPlayer().getActualShape().getShape()));
+            button.setDisable(true);
             setCrossAndCircleInButtonsBasedId(id);
             gameInfo.setRoundNumber(gameInfo.getRoundNumber() + 1);
 
@@ -101,6 +104,7 @@ public class GameProcessor {
 
     private void checkIfGameEnds() {
         if (gameChecker.checkDidYouWin(gameInfo.getGameBoard())) {
+            gameStateObserver.gameFinished();
             gameInfo.setEndGame(true);
             updateLeaderboard();
             createMessageBox();
