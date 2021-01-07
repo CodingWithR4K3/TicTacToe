@@ -114,10 +114,9 @@ public class TicTacToe extends Application {
             int finalI = index;
             buttonsArray[index].setOnAction((event) -> {
                 processor.clickButton(buttonsArray[finalI], grid);
-                buttonsArray[finalI].setDisable(true);
+                buttonsArray[finalI].setDisable(false);
             });
         }
-
         Button newGameButton = new Button("Start new game");
         newGameButton.setFont(ApplicationFont.appFont());
         newGameButton.setId("100");
@@ -140,6 +139,7 @@ public class TicTacToe extends Application {
         grid.add(leaderboardButton, 2, 0, 1, 1);
 
         return grid;
+
     }
 
     private void cleanup(Button[] buttonsArray, RadioButton selectedButtonWhoStart, RadioButton selectedButtonWhatShape, GridPane grid) {

@@ -38,7 +38,6 @@ public class GameProcessor {
             gameInfo.setRoundNumber(gameInfo.getRoundNumber() + 1);
 
             checkIfGameEnds();
-
             changePlayer();
         }
 
@@ -97,7 +96,6 @@ public class GameProcessor {
         gameInfo.setRoundNumber(gameInfo.getRoundNumber() + 1);
 
         checkIfGameEnds();
-
         changePlayer();
     }
 
@@ -111,7 +109,6 @@ public class GameProcessor {
 
     private void changePlayer() {
         User temporaryPlayer = gameInfo.getActualPlayer();
-
         gameInfo.setActualPlayer(gameInfo.getSecondPlayer());
         gameInfo.setSecondPlayer(temporaryPlayer);
     }
